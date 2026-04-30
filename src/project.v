@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2026 Hakcerspace Trójmiasto
+ * Copyright (c) 2024 Tiny Tapeout LTD
  * SPDX-License-Identifier: Apache-2.0
- * Author: Jakub Rachoń
+ * Author: Uri Shaked
  */
 
 `default_nettype none
@@ -36,6 +36,7 @@ module tt_um_magnetofield_hs3 (
   // Configuration
   wire cfg_tile = ui_in[0];
   wire cfg_color = ui_in[1];
+  wire logsel = ui_in[2];
 
   // TinyVGA PMOD
   assign uo_out  = {hsync, B[0], G[0], R[0], vsync, B[1], G[1], R[1]};
@@ -45,7 +46,7 @@ module tt_um_magnetofield_hs3 (
   assign uio_oe  = 0;
 
   // Suppress unused signals warning
-  wire _unused_ok = &{ena, ui_in[7:1], uio_in};
+  wire _unused_ok = &{ena, ui_in[7:2], uio_in};
 
   reg [9:0] prev_y;
 
@@ -75,7 +76,9 @@ module tt_um_magnetofield_hs3 (
   bitmap_rom rom1 (
       .x(x[6:0]),
       .y(y[6:0]),
+      .img_sel(logsel),
       .pixel(pixel_value)
+      
   );
 
   palette palette_inst (
@@ -135,4 +138,3 @@ module tt_um_magnetofield_hs3 (
   end
 
 endmodule
-
