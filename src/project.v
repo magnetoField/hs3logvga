@@ -12,7 +12,7 @@ parameter DISPLAY_HEIGHT = 480;  // VGA display height
 
 `define COLOR_WHITE 3'd7
 
-module tt_um_magnetofield_hs3 (
+module tt_um_vga_example (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
     input  wire [7:0] uio_in,   // IOs: Input path
@@ -36,8 +36,7 @@ module tt_um_magnetofield_hs3 (
   // Configuration
   wire cfg_tile = ui_in[0];
   wire cfg_color = ui_in[1];
-  wire logsel = ui_in[2];
-
+  
   // TinyVGA PMOD
   assign uo_out  = {hsync, B[0], G[0], R[0], vsync, B[1], G[1], R[1]};
 
@@ -71,12 +70,11 @@ module tt_um_magnetofield_hs3 (
 
   wire [9:0] x = pix_x - logo_left;
   wire [9:0] y = pix_y - logo_top;
-  wire logo_pixels = cfg_tile || (x[9:7] == 0 && y[9:7] == 0);
+  wire logo_pixels = cfg_tile || (x[9:7] == 0 && y[9:6] == 0);
 
   bitmap_rom rom1 (
       .x(x[6:0]),
-      .y(y[6:0]),
-      .img_sel(logsel),
+      .y(y[5:0]),
       .pixel(pixel_value)
       
   );
