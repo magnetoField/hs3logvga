@@ -30,7 +30,6 @@ As the logo moves and hits the screen edges, its color index is automatically up
 ![frame1](pic_3_hsvga.png)
 ![frame1](pic_4_hsvga.png)
 
-***
 
 ## How to test
 
@@ -48,11 +47,6 @@ As the logo moves and hits the screen edges, its color index is automatically up
     *   The logo color changes correctly when inputs are toggled.
     *   The display remains stable with proper synchronization (no rolling or tearing).
 
-### In simulation
-
-The project can also be tested using a Verilog simulator with a cocotb-based testbench. The testbench captures VGA output signals, reconstructs video frames, and compares them against a known reference image to verify correct pixel generation, color output, and logo positioning.
-
-***
 
 ## External hardware
 
@@ -66,6 +60,8 @@ A suitable reference implementation is the PMOD VGA adapter used in the **Tiny T
 *   Resistor ladder DACs for RGB signals
 *   Standard 15‑pin VGA (DE‑15) connector
 *   Proper grounding and signal routing for VGA timing stability
+
+[https://github.com/mole99/tiny-vga](https://github.com/mole99/tiny-vga)
 
 Equivalent third‑party PMOD VGA adapter boards may also be used, provided they support:
 
