@@ -11,8 +11,12 @@ parameter DISPLAY_WIDTH = 640;  // VGA display width
 parameter DISPLAY_HEIGHT = 480;  // VGA display height
 
 `define COLOR_WHITE 3'd7
+`define PIX_BLACK 2'b00
+`define PIX_WHITE 2'b01
+`define PIX_RED   2'b11
+// 2'b10 unused / transparent (optional)
 
-module tt_um_magnetofield_hs3 (
+module tt_um_magnetofield_hs3  (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
     input  wire [7:0] uio_in,   // IOs: Input path
@@ -64,7 +68,7 @@ module tt_um_magnetofield_hs3 (
   reg dir_x;
   reg dir_y;
 
-  wire pixel_value;
+  wire [1:0] pixel_value;
   reg [2:0] color_index;
   wire [5:0] color;
 
@@ -94,10 +98,17 @@ module tt_um_magnetofield_hs3 (
       R <= 0;
       G <= 0;
       B <= 0;
-      if (video_active && logo_pixels) begin
-        R <= pixel_value ? color[5:4] : 0;
-        G <= pixel_value ? color[3:2] : 0;
-        B <= pixel_value ? color[1:0] : 0;
+  if (video_active && logo_pixels && !cfg_color) begin
+      case (pixel_value)
+        `PIX_BLACK: begin R<=0;       G<=0;       B<=0;       end
+        `PIX_WHITE: begin R<=2'b11;   G<=2'b11;   B<=2'b11;   end
+        `PIX_RED:   begin R<=2'b11;   G<=0;       B<=0;       end
+        default:    begin R<=0;       G<=0;       B<=0;       end
+      endcase
+      end else if( video_active && cfg_color && logo_pixels) begin
+        R <= pixel_value[0] ? color[5:4] : 0;
+        G <= pixel_value[0] ? color[3:2] : 0;
+        B <= pixel_value[0] ? color[1:0] : 0;
       end
     end
   end
@@ -105,8 +116,8 @@ module tt_um_magnetofield_hs3 (
   // Bouncing logic
   always @(posedge clk) begin
     if (~rst_n) begin
-      logo_left <= 200;
-      logo_top <= 200;
+      logo_left <= 64;
+      logo_top <= 64;
       dir_y <= 0;
       dir_x <= 1;
       color_index <= 0;
