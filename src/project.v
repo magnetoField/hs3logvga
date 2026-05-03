@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2024 Tiny Tapeout LTD
+ * Copyright (c) 2026 Tiny Tapeout LTD
  * SPDX-License-Identifier: Apache-2.0
- * Author: Uri Shaked
+ * Author: Jakub Rachon
  */
 
 `default_nettype none
@@ -118,6 +118,7 @@ module tt_um_magnetofield_hs3  (
     if (~rst_n) begin
       logo_left <= 64;
       logo_top <= 64;
+      prev_y <= 0;
       dir_y <= 0;
       dir_x <= 1;
       color_index <= 0;
