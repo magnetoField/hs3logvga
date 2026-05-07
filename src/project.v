@@ -139,7 +139,7 @@ module tt_um_magnetofield_hs3  (
           dir_y <= 1;
           color_index <= color_index + 1;
         end
-        if (logo_top + 1 == DISPLAY_HEIGHT - LOGO_SIZE && dir_y) begin
+          if (logo_top + 1 == DISPLAY_HEIGHT - 64 && dir_y) begin
           dir_y <= 0;
           color_index <= color_index + 1;
         end
